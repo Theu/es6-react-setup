@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 class App extends React.Component {
   render() {
-    let paolo = this.props.paolo;
-    let apple = this.props.apple
+    let txt = this.props.txt;
+    let cat = this.props.cat
     return (
       <div>
-        <h1>{paolo}</h1>
-        <b>{apple}</b>
+        <h1>{txt}</h1>
+        <b>{cat}</b>
       </div>
   );
   }
@@ -18,14 +18,14 @@ class App extends React.Component {
 // const App = () => <h1>HELLO STATELESS FUNCTION</h1>
 
 App.propTypes = {
-  paolo: React.PropTypes.string,
-  apple: React.PropTypes.number.isRequired
+  txt: React.PropTypes.string,
+  cat: React.PropTypes.number.isRequired
 }
 
 App.defaultProps = {
-  apple: '4015'
+  cat: 4015
 }
 
 ReactDOM.render(
-  <App paolo="ciao, sono tuo cugino e mangio barbeque, ah. alla faccia tua" />, document.getElementById('app')
+  <App txt="this is the props text" />, document.getElementById('app')
 );
