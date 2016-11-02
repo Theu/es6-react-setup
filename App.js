@@ -23,9 +23,9 @@ App.propTypes = {
 }
 
 App.defaultProps = {
-  cat: 4015
+  txt: 'this is the default txt'
 }
 
 ReactDOM.render(
-  <App txt="this is the props text" />, document.getElementById('app')
+  <App cat={5} txt="this is the props value" />, document.getElementById('app')
 );
