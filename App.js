@@ -1,48 +1,37 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-class App extends React.Component {
+let myMixin = InnerComponent => class extends React.Component {
   constructor(){
     super();
-    // this.state = { stVal: 0 }
-    // this.stUpdate = this.stUpdate.bind(this);
-    this.update = this.update.bind(this);
-    this.state = {increasing: false}
+    this.state = {val:0};
+    this.update = this.update.bind(this)
   }
   update(){
-    ReactDOM.render(
-      <App val={this.props.val+1} />,
-      document.getElementById('app')
-    );
+    this.setState({val: this.state.val + 1})
   }
-  componentWillReceiveProps(nextProps){
-    this.setState({increasing: nextProps.val > this.props.val})
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.val % 5 === 0;
-  }
-  componentDidUpdate(prevPops){
-    console.log('prevProps', prevPops);
-  }
-  // stUpdate(){
-  //   this.setState({ stVal: this.props.val * 100 })
-  // }
+
   render(){
-    console.log(this.state.increasing);
-    return(
-      <div>
-        <button onClick={this.update}>
-          +
-        </button>
-        <h1>I am not a state I am a prop {this.props.val}</h1>
-        {/* <button onClick={this.stUpdate}>
-          +
-          </button>
-        <h1>with state {this.state.stVal}</h1> */}
-      </div>
-    )
+    return <InnerComponent
+      update={this.update}
+      {...this.state}
+      {...this.props} />
   }
 }
-App.defaultProps = { val: 0 }
 
-export default App
+const Button = (props) => <button onClick={props.update}>{props.txt} - {props.val}</button>
+
+let ButtonMixed = myMixin(Button)
+
+class App extends React.Component {
+
+  render() {
+    return (
+      <div>
+        <ButtonMixed txt="Button" />
+      </div>
+    );
+  }
+
+}
+
+export default App;
