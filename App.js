@@ -14,26 +14,25 @@ class App extends React.Component {
   }
 
   componentWillMount(){
-    console.log('this is mounting');
+    this.setState({ m: 10 })
   }
 
   componentDidMount(){
-    console.log('elemento caricato');
+    console.log(ReactDOM.findDOMNode(this));
+    this.inc = setInterval(this.update, 1000)
   }
 
   render(){
     console.log('qui verifico se il rendering é attivo')
     return(
       <div>
-        <button onClick={this.update}>
-          Cliccami tutto
-        </button>
-        <h1>{this.state.val}</h1>
+        <button onClick={this.update}>Bottone tradizionale</button>
+        <h1>{this.state.val * this.state.m}</h1>
       </div>
     )
   }
   componentWillUnmount(){
-    console.log('ho smontato tutto!');
+    clearInterval(this.inc)
   }
 }
 
