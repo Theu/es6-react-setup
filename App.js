@@ -1,63 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Bottone from './Bottone';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = { val: 0 };
-    this.update = this.update.bind(this);
-  }
-
-  update(){
-    this.setState({ val:this.state.val + 1 })
-  }
-
-  componentWillMount(){
-    this.setState({ m: 10 })
-  }
-
-  componentDidMount(){
-    console.log(ReactDOM.findDOMNode(this));
-    this.inc = setInterval(this.update, 1000)
-  }
-
-  render(){
-    console.log('qui verifico se il rendering é attivo')
-    return(
-      <div>
-        <button onClick={this.update}>Bottone tradizionale</button>
-        <h1>{this.state.val * this.state.m}</h1>
-      </div>
-    )
-  }
-  componentWillUnmount(){
-    clearInterval(this.inc)
-  }
-}
-
-class Wrapper extends React.Component {
   constructor(){
     super();
-    this.mount = this.mount.bind(this)
-    this.unmount = this.unmount.bind(this)
+    // this.state = { stVal: 0 }
+    // this.stUpdate = this.stUpdate.bind(this);
+    this.update = this.update.bind(this);
+    this.state = {increasing: false}
   }
-  mount(){
-    ReactDOM.render(<App />, document.getElementById('contenitore'))
+  update(){
+    ReactDOM.render(
+      <App val={this.props.val+1} />,
+      document.getElementById('app')
+    );
   }
-  unmount(){
-    ReactDOM.unmountComponentAtNode(document.getElementById('contenitore'))
+  componentWillReceiveProps(nextProps){
+    this.setState({increasing: nextProps.val > this.props.val})
   }
-
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0;
+  }
+  componentDidUpdate(prevPops){
+    console.log('prevProps', prevPops);
+  }
+  // stUpdate(){
+  //   this.setState({ stVal: this.props.val * 100 })
+  // }
   render(){
-    console.log('ciao sono Wrapper');
+    console.log(this.state.increasing);
     return(
       <div>
-        <button onClick={this.mount}>monta</button>
-        <button onClick={this.unmount}>smonta</button>
-        <div id="contenitore"></div>
+        <button onClick={this.update}>
+          +
+        </button>
+        <h1>I am not a state I am a prop {this.props.val}</h1>
+        {/* <button onClick={this.stUpdate}>
+          +
+          </button>
+        <h1>with state {this.state.stVal}</h1> */}
       </div>
     )
   }
 }
-export default Wrapper
+App.defaultProps = { val: 0 }
+
+export default App
